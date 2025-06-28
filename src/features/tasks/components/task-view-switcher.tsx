@@ -15,8 +15,13 @@ import { DataKanban } from "./data-kanban";
 import { TaskStatus } from "../types";
 import { useCallback } from "react";
 import { useBulkUpdateTasks } from "../api/use-bulk-update-tasks";
+import { DataCalendar } from "./data-calendar";
 
-export const TaskviewSwitcher = () => {
+interface TaskViewSwitcherProps {
+    hideProjectFilter?: boolean;
+};
+
+export const TaskviewSwitcher = ({ hideProjectFilter }: TaskViewSwitcherProps) => {
     const [{
             status,
             assigneeId,
@@ -82,21 +87,21 @@ export const TaskviewSwitcher = () => {
                     </Button>
                 </div>
                 <DottedSeparator className="my-4" />
-                    <DataFilters />
+                    <DataFilters hideProjectFilter={hideProjectFilter} />
                 <DottedSeparator className="my-4" />
-                <>
+                <div>
                     <TabsContent value="table" className="mt-0">
                         <DataTable columns={columns} data={tasks?.documents ?? []} />
                     </TabsContent>
                     <TabsContent value="kanban" className="mt-0">
                         <DataKanban onChange={onKanbanChange} data={tasks?.documents ?? []} />
                     </TabsContent>
-                    <TabsContent value="calendar" className="mt-0">
-                        {JSON.stringify(tasks)}
+                    <TabsContent value="calendar" className="mt-0 h-full pb-4">
+                        <DataCalendar data={tasks?.documents ?? []} />
                     </TabsContent>
-                </>
+                </div>
 
             </div>
         </Tabs>
     );
-};
+}

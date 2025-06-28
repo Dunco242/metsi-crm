@@ -90,4 +90,4 @@ export const TaskActions = ({ id, projectId, children }: TaskActionsProps) => {
             </DropdownMenu>
         </div>
     );
-};
+}

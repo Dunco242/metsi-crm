@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useRef } from "react";
 import Image from "next/image";
-
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,7 +21,6 @@ import { DottedSeparator } from "@/components/dotted-separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ArrowLeftIcon, CopyIcon, ImageIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Workspace } from "../types";
 import { updateWorkspaceSchema } from "../schemas";
@@ -91,10 +90,6 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
 
         resetInviteCode({
             param: { workspaceId: initialValues.$id },
-        }, {
-            onSuccess: () => {
-                router.refresh();
-           }
         });
     };
 
@@ -107,10 +102,6 @@ export const EditWorkspaceForm = ({ onCancel, initialValues }: EditWorkspaceForm
         mutate({
             form: finalValues,
             param: { workspaceId: initialValues.$id }
-        }, {
-            onSuccess: () => {
-                form.reset();
-            },
         });
     };
 
