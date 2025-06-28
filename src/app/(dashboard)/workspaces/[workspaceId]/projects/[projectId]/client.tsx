@@ -3,7 +3,7 @@
 import { PageError } from "@/components/page-error";
 import { PageLoader } from "@/components/page-loader";
 import { Button } from "@/components/ui/button";
-import { UseGetProject } from "@/features/projects/api/use-get-project";
+import { useGetProject } from "@/features/projects/api/use-get-project";
 import { ProjectAvatar } from "@/features/projects/components/project-avatar";
 import { useProjectId } from "@/features/projects/hooks/use-project-id";
 import { TaskviewSwitcher } from "@/features/tasks/components/task-view-switcher";
@@ -12,7 +12,7 @@ import Link from "next/link";
 
 export const ProjectIdClient = () => {
     const projectId = useProjectId();
-    const { data, isLoading } = UseGetProject({ projectId });
+    const { data, isLoading } = useGetProject({ projectId });
 
     if (isLoading) {
         return <PageLoader />
