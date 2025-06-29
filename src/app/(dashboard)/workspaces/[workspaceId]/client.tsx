@@ -68,7 +68,7 @@ export const TaskList = ({ data, total }: TaskListProps) => {
 
     return (
         <div className="flex flex-col gap-y-4 col-span-1">
-            <div className="bg-muted rounded-lg p-4">
+            <div className="bg-card text-card-foreground border border-border rounded-lg p-4">
                 <div className="flex items-center justify-between">
                     <p className="text-lg font-semibold">
                         Tasks ({total})
@@ -82,13 +82,13 @@ export const TaskList = ({ data, total }: TaskListProps) => {
                     {data.map((task) => (
                         <li key={task.$id}>
                             <Link href={`/workspaces/${workspaceId}/tasks/${task.$id}`}>
-                                <Card className="shadow-none rounded-lg hover:opacity-75 transition">
+                                <Card className="shadow-none bg-muted dark:bg-purple-900/20 rounded-lg hover:opacity-75 transition">
                                     <CardContent className="p-4">
                                         <p className="text-lg font-medium truncate">{task.name}</p>
-                                        <div className="flex items-center gap-x-2">
+                                        <div className="flex items-center gap-x-2 text-sm text-muted-foreground">
                                             <p>{task.project?.name}</p>
-                                            <div className="size-1 rounded-full bg-neutral-300" />
-                                            <div className="text-sm text-muted-foreground flex items-center">
+                                            <div className="size-1 rounded-full bg-neutral-300 dark:bg-purple-700" />
+                                            <div className="flex items-center">
                                                 <CalendarIcon className="size-3 mr-1" />
                                                 <span className="truncate">
                                                     {formatDistanceToNow(new Date(task.dueDate))}
@@ -125,7 +125,7 @@ export const ProjectList = ({ data, total }: ProjectListProps) => {
 
     return (
         <div className="flex flex-col gap-y-4 col-span-1">
-            <div className="bg-white border rounded-lg p-4">
+            <div className="bg-card text-card-foreground border border-border rounded-lg p-4">
                 <div className="flex items-center justify-between">
                     <p className="text-lg font-semibold">
                         Projects ({total})
@@ -139,7 +139,7 @@ export const ProjectList = ({ data, total }: ProjectListProps) => {
                     {data.map((project) => (
                         <li key={project.$id}>
                             <Link href={`/workspaces/${workspaceId}/projects/${project.$id}`}>
-                                <Card className="shadow-none rounded-lg hover:opacity-75 transition">
+                                <Card className="shadow-none bg-muted dark:bg-purple-900/20 rounded-lg hover:opacity-75 transition">
                                     <CardContent className="p-4 flex items-center gap-x-2.5">
                                         <ProjectAvatar
                                             className="size-12"
@@ -148,7 +148,7 @@ export const ProjectList = ({ data, total }: ProjectListProps) => {
                                             image={project.imageUrl}
                                         />
                                     </CardContent>
-                                    <p className="text-lg font-medium truncate">
+                                    <p className="text-lg font-medium truncate px-4 pb-2">
                                         {project.name}
                                     </p>
                                 </Card>
@@ -172,10 +172,9 @@ interface MembersListProps {
 export const MembersList = ({ data, total }: MembersListProps) => {
     const workspaceId = useWorkspaceId();
 
-
     return (
         <div className="flex flex-col gap-y-4 col-span-1">
-            <div className="bg-white border rounded-lg p-4">
+            <div className="bg-card text-card-foreground border border-border rounded-lg p-4">
                 <div className="flex items-center justify-between">
                     <p className="text-lg font-semibold">
                         Members ({total})
@@ -187,10 +186,10 @@ export const MembersList = ({ data, total }: MembersListProps) => {
                     </Button>
                 </div>
                 <DottedSeparator className="my-4" />
-                <ul className="grid grid-cols-1 sm:grid-cols-2  lg:grid-cols-3 gap-4">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                     {data.map((member) => (
                         <li key={member.$id}>
-                            <Card className="shadow-none rounded-lg overflow-hidden">
+                            <Card className="shadow-none bg-muted dark:bg-purple-900/20 rounded-lg overflow-hidden">
                                 <CardContent className="p-3 flex flex-col items-center gap-x-2">
                                     <MemberAvatar
                                         className="size-12"
