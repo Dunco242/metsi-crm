@@ -20,14 +20,13 @@ import {
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon, CopyIcon, ImageIcon } from "lucide-react";
+import { ArrowLeftIcon, ImageIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Project } from "../types";
 import { updateProjectSchema } from "../schemas";
 import { useUpdateProject } from "../api/use-update-project";
 import { useConfirm } from "@/hooks/use-confirm";
-import { toast } from "sonner";
 import { useDeleteProject } from "../api/use-delete-project";
 
 interface EditProjectFormProps {
@@ -241,7 +240,7 @@ export const EditProjectForm = ({ onCancel, initialValues }: EditProjectFormProp
                      size="sm"
                      variant="destructive"
                      type="button"
-                     disabled={isPending}
+                     disabled={isPending || isDeletingProject}
                      onClick={handleDelete}
                      >
                         Delete Project

@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/form";
 import  { loginSchema } from "../schemas";
 import { useLogin } from "../api/use-login";
+import { signUpwithGoogle } from "@/lib/oauth";
 
 
 export const SignInCard = () => {
@@ -94,6 +95,7 @@ export const SignInCard = () => {
            </div>
            <CardContent className="p-7 flex flex-col gap-y-4">
             <Button
+                onClick={() => signUpwithGoogle()}
                 disabled={isPending}
                 variant="secondary"
                 size="lg"

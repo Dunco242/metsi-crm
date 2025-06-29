@@ -23,13 +23,11 @@ import {
 }from "@/components/ui/select";
 import { DottedSeparator } from "@/components/dotted-separator";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { useCreateTask } from "../api/use-create-task";
-import { ImageIcon } from "lucide-react";
-import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useWorkspaceId } from "@/features/workspaces/hooks/use-workspace-id";
-import { string } from "zod/v4";
 import { DatePicker } from "@/components/date-picker";
 import { MemberAvatar } from "@/features/members/components/member-avatar";
 import { TaskStatus } from "../types";
@@ -44,7 +42,6 @@ interface CreateTaskFormProps {
 
 export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: CreateTaskFormProps) => {
     const workspaceId = useWorkspaceId();
-    const router = useRouter();
     const { mutate, isPending } = useCreateTask();
 
     const form = useForm<z.infer<typeof createTaskSchema>>({
@@ -89,6 +86,27 @@ export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: Crea
                                             <Input
                                             {...field}
                                             placeholder="Enter task name"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <FormField
+                                control={form.control}
+                                name="description"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>
+                                         Description
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                            {...field}
+                                            placeholder="Add a description..."
+                                            rows={4}
+                                            value={field.value || ""}
+                                            onChange={(e) => field.onChange(e.target.value || undefined)}
                                             />
                                         </FormControl>
                                         <FormMessage />
@@ -234,7 +252,7 @@ export const CreateTaskForm = ({ onCancel, projectOptions, memberOptions }: Crea
                                             size="lg"
                                             disabled={isPending}
                                         >
-                                            Create project
+                                            Create Task
                                         </Button>
                                     </div>
                                 </div>

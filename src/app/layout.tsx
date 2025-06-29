@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
-import "./globals.css";
 import { Inter } from "next/font/google";
-
+import { ThemeProvider } from "next-themes"; // Correctly imported
 import { cn } from "@/lib/utils";
 import { QueryProvider } from "@/components/query-provider";
 import { Toaster } from "@/components/ui/sonner";
 
-import "./globals.css";
+import "./globals.css"; // No need for duplicated import
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -21,14 +20,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning> {/* Add suppressHydrationWarning */}
       <body
         className={cn(inter.className, "antialiased min-h-screen")}
       >
-        <QueryProvider>
-          <Toaster />
-         {children}
-        </QueryProvider>
+        {/* Wrap children with ThemeProvider */}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <QueryProvider>
+            <Toaster />
+            {children}
+          </QueryProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

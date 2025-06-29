@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/comp
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { signUpwithGoogle } from "@/lib/oauth";
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -121,13 +122,14 @@ export const SignUpCard = () => {
            </div>
            <CardContent className="p-7 flex flex-col gap-y-4">
             <Button
+                onClick={() => signUpwithGoogle()}
                 disabled={isPending}
                 variant="secondary"
                 size="lg"
                 className="w-full"
                 >
                 <FcGoogle className="mr-2 size-5" />
-                Login with Google
+                Sign up with Google
             </Button>
            </CardContent>
            <div className="px-7">

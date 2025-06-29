@@ -184,7 +184,8 @@ const app = new Hono()
                 workspaceId,
                 projectId,
                 dueDate,
-                assigneeId
+                assigneeId,
+                description
 
             } = c.req.valid("json");
 
@@ -224,6 +225,7 @@ const app = new Hono()
                 projectId,
                 dueDate,
                 assigneeId,
+                description,
                 position: newPosition
             },
         );
@@ -371,6 +373,10 @@ const app = new Hono()
 
         const workspaceId = workspaceIds.values().next().value!;
 
+        if (!workspaceId) {
+          return c.json({ error: "Workspace ID is required"}, 400);
+        }
+
         const member = await getMember({
           databases,
           workspaceId,
@@ -396,5 +402,5 @@ const app = new Hono()
         return c.json ({ data: updatedTasks });
       }
     )
-    
+
   export default app;
