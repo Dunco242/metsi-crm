@@ -66,6 +66,11 @@ export const TaskList = ({ data, total }: TaskListProps) => {
     const workspaceId = useWorkspaceId();
     const { open: createTask } = useCreateTaskModal();
 
+    const validTasks = data.filter(task => {
+        // Keep tasks that either have no projectId or have a valid project object
+        return !task.projectId || (task.project && task.project.$id);
+    });
+
     return (
         <div className="flex flex-col gap-y-4 col-span-1">
             <div className="bg-card text-card-foreground border border-border rounded-lg p-4">

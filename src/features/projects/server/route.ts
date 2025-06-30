@@ -185,39 +185,54 @@ const app = new Hono()
               }
             )
             .delete(
-                  "/:projectId",
-                  sessionMiddleware,
-                  async (c) => {
-                    const databases = c.get("databases");
-                    const user = c.get("user");
+  "/:projectId",
+  sessionMiddleware,
+  async (c) => {
+    const databases = c.get("databases");
+    const user = c.get("user");
 
-                    const { projectId } = c.req.param();
+    const { projectId } = c.req.param();
 
-                    const existingProject = await databases.getDocument<Project>(
-                      DATABASE_ID,
-                      PROJECTS_ID,
-                      projectId,
-                    );
+    const existingProject = await databases.getDocument<Project>(
+      DATABASE_ID,
+      PROJECTS_ID,
+      projectId,
+    );
 
-                    const member = await getMember({
-                      databases,
-                      workspaceId: existingProject.workspaceId,
-                      userId: user.$id,
-                    });
+    const member = await getMember({
+      databases,
+      workspaceId: existingProject.workspaceId,
+      userId: user.$id,
+    });
 
-                    if (!member) {
-                      return c.json({ error: "Unauthorized"}, 401);
-                    }
+    if (!member) {
+      return c.json({ error: "Unauthorized"}, 401);
+    }
 
-                    await databases.deleteDocument(
-                      DATABASE_ID,
-                      PROJECTS_ID,
-                      projectId,
-                    );
+    // Get all tasks associated with this project
+    const tasksResponse = await databases.listDocuments(
+      DATABASE_ID,
+      TASKS_ID,
+      [Query.equal("projectId", projectId)]
+    );
 
-                    return c.json({ data: {$id: existingProject.$id } });
-                  }
-                )
+    // Delete all associated tasks first
+    const deleteTaskPromises = tasksResponse.documents.map(task =>
+      databases.deleteDocument(DATABASE_ID, TASKS_ID, task.$id)
+    );
+
+    await Promise.all(deleteTaskPromises);
+
+    // Then delete the project
+    await databases.deleteDocument(
+      DATABASE_ID,
+      PROJECTS_ID,
+      projectId,
+    );
+
+    return c.json({ data: {$id: existingProject.$id } });
+  }
+)
                 .get(
                   "/:projectId/analytics",
                   sessionMiddleware,
